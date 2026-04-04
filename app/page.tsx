@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getCategories, getMenuItems } from "@/lib/menu-queries";
 import { CartProvider } from "@/lib/cart-context";
 import { Header } from "@/components/order/header";

@@ -3,19 +3,11 @@ import { Kysely } from "kysely";
 import { PostgresJSDialect } from "kysely-postgres-js";
 import postgres from "postgres";
 
-console.log("[auth-init] 初期化開始", {
-  BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
-  VERCEL_URL: process.env.VERCEL_URL,
-  DATABASE_URL: process.env.DATABASE_URL ? "設定済み" : "未設定",
-});
-
-const url = process.env.DATABASE_URL!.replace(
-  /[?&]channel_binding=[^&]*/g,
-  ""
-);
+const raw = process.env.DATABASE_URL ?? "";
+const url = raw.replace(/[?&]channel_binding=[^&]*/g, "");
 
 const dialect = new PostgresJSDialect({
-  postgres: postgres(url, { ssl: "require" }),
+  postgres: postgres(url, { ssl: url ? "require" : undefined }),
 });
 
 const baseURL =
