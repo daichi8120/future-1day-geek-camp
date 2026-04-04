@@ -11,6 +11,8 @@ export type MenuItem = {
   description: string;
   image: string;
   categoryId: string;
+  isSoldOut?: boolean;
+  isPopular?: boolean;
 };
 
 export const categories: Category[] = [
@@ -30,6 +32,7 @@ export const menuItems: MenuItem[] = [
     description: "肉汁たっぷりの自家製ハンバーグ。デミグラスソースでどうぞ",
     image: "/hunberg.jpeg",
     categoryId: "recommended",
+    isPopular: true,
   },
   {
     id: "r2",
@@ -38,6 +41,7 @@ export const menuItems: MenuItem[] = [
     description: "市場直送の新鮮な旬の魚介を豪華に盛り合わせ",
     image: "/hunberg.jpeg",
     categoryId: "recommended",
+    isPopular: true,
   },
   {
     id: "r3",
@@ -55,6 +59,7 @@ export const menuItems: MenuItem[] = [
     description: "A5ランク黒毛和牛のサーロインを贅沢に",
     image: "/hunberg.jpeg",
     categoryId: "main",
+    isPopular: true,
   },
   {
     id: "m2",
@@ -69,6 +74,15 @@ export const menuItems: MenuItem[] = [
     name: "鯖の味噌煮定食",
     price: 880,
     description: "じっくり煮込んだ定番の一品。ご飯がすすむ味",
+    image: "/hunberg.jpeg",
+    categoryId: "main",
+    isSoldOut: true,
+  },
+  {
+    id: "m6",
+    name: "味噌カツ定食",
+    price: 1080,
+    description: "サクサクのとんかつに濃厚な赤味噌ダレ",
     image: "/hunberg.jpeg",
     categoryId: "main",
   },
@@ -87,6 +101,7 @@ export const menuItems: MenuItem[] = [
     description: "サクサクでジューシーな定番の唐揚げ",
     image: "/hunberg.jpeg",
     categoryId: "main",
+    isPopular: true,
   },
   // サイド
   {
@@ -112,6 +127,7 @@ export const menuItems: MenuItem[] = [
     description: "ふわふわ食感の自家製だし巻き卵",
     image: "/hunberg.jpeg",
     categoryId: "side",
+    isSoldOut: true,
   },
   {
     id: "s4",
@@ -129,6 +145,7 @@ export const menuItems: MenuItem[] = [
     description: "キンキンに冷えた生ビール",
     image: "/hunberg.jpeg",
     categoryId: "drink",
+    isPopular: true,
   },
   {
     id: "d2",
@@ -162,6 +179,7 @@ export const menuItems: MenuItem[] = [
     description: "旬のフルーツをたっぷり使った贅沢パフェ",
     image: "/hunberg.jpeg",
     categoryId: "dessert",
+    isPopular: true,
   },
   {
     id: "de2",
