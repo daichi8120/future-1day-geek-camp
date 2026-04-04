@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Users } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -18,6 +20,11 @@ import { CartBar } from "@/components/order/cart-bar";
 export function CartSheet() {
   const [open, setOpen] = useState(false);
   const { items, addItem, removeItem, totalPrice } = useCart();
+  const [splitCount, setSplitCount] = useState("");
+
+  const parsedSplit = parseInt(splitCount, 10);
+  const perPerson =
+    parsedSplit > 0 ? Math.ceil(totalPrice / parsedSplit) : null;
 
   return (
     <>
@@ -70,6 +77,35 @@ export function CartSheet() {
                 &yen;{totalPrice.toLocaleString()}
               </span>
             </div>
+
+            {/* 割り勘 */}
+            {items.length > 0 && (
+              <>
+                <Separator className="my-3" />
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Users className="size-4 text-muted-foreground" />
+                    <span className="text-sm font-medium">割り勘</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Input
+                      type="number"
+                      min="1"
+                      placeholder="人数"
+                      value={splitCount}
+                      onChange={(e) => setSplitCount(e.target.value)}
+                      className="w-20"
+                    />
+                    <span className="text-sm text-muted-foreground">人で割ると</span>
+                    <span className="text-sm font-bold">
+                      {perPerson !== null
+                        ? `\u00a5${perPerson.toLocaleString()}/人`
+                        : "-"}
+                    </span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
           <SheetFooter>
             <Button

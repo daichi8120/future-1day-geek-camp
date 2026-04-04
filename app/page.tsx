@@ -1,4 +1,4 @@
-import { categories, menuItems } from "@/lib/menu-data";
+import { getCategories, getMenuItems } from "@/lib/menu-queries";
 import { CartProvider } from "@/lib/cart-context";
 import { Header } from "@/components/order/header";
 import { CategorySidebar } from "@/components/order/category-sidebar";
@@ -6,7 +6,12 @@ import { MenuSection } from "@/components/order/menu-section";
 import { MenuItemCard } from "@/components/order/menu-item-card";
 import { CartSheet } from "@/components/order/cart-sheet";
 
-export default function Home() {
+export default async function Home() {
+  const [categories, menuItems] = await Promise.all([
+    getCategories(),
+    getMenuItems(),
+  ]);
+
   return (
     <CartProvider>
       <div className="flex min-h-dvh flex-col bg-background">

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Flame } from "lucide-react";
 import type { MenuItem } from "@/lib/menu-data";
@@ -11,16 +12,23 @@ import { QuantitySelector } from "@/components/order/quantity-selector";
 export function MenuItemCard({ item }: { item: MenuItem }) {
   const { addItem, removeItem, getQuantity } = useCart();
   const quantity = getQuantity(item.id);
+  const [showSoldOutMsg, setShowSoldOutMsg] = useState(false);
+
+  const handleSoldOutTap = () => {
+    setShowSoldOutMsg(true);
+    setTimeout(() => setShowSoldOutMsg(false), 2000);
+  };
 
   return (
     <div
-      className={`flex gap-3 rounded-xl border bg-card p-3 shadow-sm transition-all ${
+      className={`relative flex gap-3 rounded-xl border bg-card p-3 shadow-sm transition-all ${
         item.isSoldOut
           ? "opacity-50"
           : quantity > 0
             ? "ring-2 ring-primary/30"
             : ""
       }`}
+      {...(item.isSoldOut ? { onClick: handleSoldOutTap } : {})}
     >
       <div className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-muted">
         <Image
@@ -74,6 +82,15 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
           )}
         </div>
       </div>
+
+      {/* 品切れエラーメッセージ */}
+      {showSoldOutMsg && (
+        <div className="absolute inset-x-3 bottom-1 flex justify-center">
+          <span className="rounded-md bg-destructive/90 px-3 py-1 text-xs font-medium text-white shadow-sm">
+            この商品は現在品切れです
+          </span>
+        </div>
+      )}
     </div>
   );
 }
