@@ -11,6 +11,27 @@ async function seed() {
   `;
 
   await sql`
+    CREATE TABLE IF NOT EXISTS orders (
+      id SERIAL PRIMARY KEY,
+      table_number INTEGER NOT NULL,
+      total_price INTEGER NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS order_items (
+      id SERIAL PRIMARY KEY,
+      order_id INTEGER NOT NULL REFERENCES orders(id),
+      menu_item_id TEXT NOT NULL,
+      menu_item_name TEXT NOT NULL,
+      price INTEGER NOT NULL,
+      quantity INTEGER NOT NULL
+    )
+  `;
+
+  await sql`
     CREATE TABLE IF NOT EXISTS menu_items (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,

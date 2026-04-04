@@ -12,6 +12,7 @@ type CartContextType = {
   items: CartItem[];
   addItem: (item: MenuItem) => void;
   removeItem: (itemId: string) => void;
+  clearCart: () => void;
   getQuantity: (itemId: string) => number;
   totalCount: number;
   totalPrice: number;
@@ -47,6 +48,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const clearCart = useCallback(() => {
+    setItems([]);
+  }, []);
+
   const getQuantity = useCallback(
     (itemId: string) => {
       return items.find((ci) => ci.item.id === itemId)?.quantity ?? 0;
@@ -61,7 +66,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <CartContext value={{ items, addItem, removeItem, getQuantity, totalCount, totalPrice }}>
+    <CartContext value={{ items, addItem, removeItem, clearCart, getQuantity, totalCount, totalPrice }}>
       {children}
     </CartContext>
   );
