@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import {
   Clock,
   Flame,
@@ -10,7 +11,9 @@ import {
   Search,
   RefreshCw,
   AlertTriangle,
+  LogOut,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -120,6 +123,7 @@ function isOverdue(order: Order): boolean {
 }
 
 export default function AdminOrdersPage() {
+  const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
@@ -196,9 +200,21 @@ export default function AdminOrdersPage() {
     <div className="min-h-dvh bg-background">
       <header className="sticky top-0 z-40 flex h-12 items-center justify-between border-b bg-background/95 px-4 backdrop-blur">
         <h1 className="text-base font-bold">注文管理</h1>
-        <Button variant="ghost" size="icon-sm" onClick={fetchOrders}>
-          <RefreshCw className="size-4" />
-        </Button>
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" size="icon-sm" onClick={fetchOrders}>
+            <RefreshCw className="size-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={async () => {
+              await authClient.signOut();
+              router.push("/sign-in");
+            }}
+          >
+            <LogOut className="size-4" />
+          </Button>
+        </div>
       </header>
 
       {/* ステータスフィルタ */}
