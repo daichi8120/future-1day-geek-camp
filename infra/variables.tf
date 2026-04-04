@@ -26,3 +26,9 @@ variable "better_auth_secret" {
   type        = string
   sensitive   = true
 }
+
+variable "cloud_run_url" {
+  description = "Cloud Run サービスの URL (初回デプロイ後に設定)"
+  type        = string
+  default     = ""
+}

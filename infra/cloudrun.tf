@@ -21,8 +21,9 @@ resource "google_secret_manager_secret_iam_member" "cloudrun_better_auth_secret"
 
 # Cloud Run サービス
 resource "google_cloud_run_v2_service" "app" {
-  name     = var.service_name
-  location = var.region
+  name                = "${var.service_name}-app"
+  location            = var.region
+  deletion_protection = false
 
   template {
     containers {
@@ -60,15 +61,14 @@ resource "google_cloud_run_v2_service" "app" {
         }
       }
 
-      # BETTER_AUTH_URL は Cloud Run の URL を使う (デプロイ後に更新)
       env {
         name  = "BETTER_AUTH_URL"
-        value = "https://${var.service_name}-${data.google_project.current.number}.${var.region}.run.app"
+        value = var.cloud_run_url
       }
 
       env {
         name  = "NEXT_PUBLIC_BETTER_AUTH_URL"
-        value = "https://${var.service_name}-${data.google_project.current.number}.${var.region}.run.app"
+        value = var.cloud_run_url
       }
     }
 

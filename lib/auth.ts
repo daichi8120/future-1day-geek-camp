@@ -25,6 +25,9 @@ export const auth = betterAuth({
     ...(process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`]
       : []),
+    // Cloud Run の URL パターン
+    ...(process.env.CLOUD_RUN_URL ? [process.env.CLOUD_RUN_URL] : []),
+    "https://osaki-tei-app-o62lp67f5a-an.a.run.app",
   ],
   database: {
     dialect,
