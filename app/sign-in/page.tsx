@@ -29,30 +29,44 @@ export default function SignInPage() {
     setLoading(true);
     setError("");
 
-    if (isSignUp) {
-      const { error } = await authClient.signUp.email({
-        name,
-        email,
-        password,
-      });
-      if (error) {
-        setError(error.message ?? "登録に失敗しました");
-        setLoading(false);
-        return;
-      }
-    } else {
-      const { error } = await authClient.signIn.email({
-        email,
-        password,
-      });
-      if (error) {
-        setError(error.message ?? "ログインに失敗しました");
-        setLoading(false);
-        return;
-      }
-    }
+    const action = isSignUp ? "signUp" : "signIn";
+    console.log(`[auth] ${action} 開始`, { email });
 
-    router.push("/admin/orders");
+    try {
+      if (isSignUp) {
+        console.log("[auth] signUp.email 呼び出し中...");
+        const { error, data } = await authClient.signUp.email({
+          name,
+          email,
+          password,
+        });
+        console.log("[auth] signUp.email 完了", { error, data });
+        if (error) {
+          setError(error.message ?? "登録に失敗しました");
+          setLoading(false);
+          return;
+        }
+      } else {
+        console.log("[auth] signIn.email 呼び出し中...");
+        const { error, data } = await authClient.signIn.email({
+          email,
+          password,
+        });
+        console.log("[auth] signIn.email 完了", { error, data });
+        if (error) {
+          setError(error.message ?? "ログインに失敗しました");
+          setLoading(false);
+          return;
+        }
+      }
+
+      console.log("[auth] 成功、/admin/orders へ遷移");
+      router.push("/admin/orders");
+    } catch (err) {
+      console.error("[auth] 例外発生:", err);
+      setError(err instanceof Error ? err.message : "予期しないエラーが発生しました");
+      setLoading(false);
+    }
   };
 
   return (
