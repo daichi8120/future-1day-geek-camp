@@ -10,6 +10,43 @@ type OrderPayload = {
   items: OrderItemPayload[];
 };
 
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const tableNumber = searchParams.get("table");
+
+  let orders;
+  if (tableNumber) {
+    orders = await sql`
+      SELECT o.id, o.table_number, o.total_price, o.status, o.created_at,
+        json_agg(json_build_object(
+          'menuItemName', oi.menu_item_name,
+          'price', oi.price,
+          'quantity', oi.quantity
+        )) as items
+      FROM orders o
+      JOIN order_items oi ON oi.order_id = o.id
+      WHERE o.table_number = ${parseInt(tableNumber, 10)}
+      GROUP BY o.id
+      ORDER BY o.created_at DESC
+    `;
+  } else {
+    orders = await sql`
+      SELECT o.id, o.table_number, o.total_price, o.status, o.created_at,
+        json_agg(json_build_object(
+          'menuItemName', oi.menu_item_name,
+          'price', oi.price,
+          'quantity', oi.quantity
+        )) as items
+      FROM orders o
+      JOIN order_items oi ON oi.order_id = o.id
+      GROUP BY o.id
+      ORDER BY o.created_at DESC
+    `;
+  }
+
+  return Response.json(orders);
+}
+
 export async function POST(request: Request) {
   let body: OrderPayload;
   try {
