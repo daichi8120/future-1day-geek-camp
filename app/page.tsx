@@ -1,65 +1,105 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="flex flex-col flex-1 items-center bg-zinc-50 py-16 px-4 dark:bg-black">
+      <div className="w-full max-w-2xl space-y-12">
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          shadcn/ui Components
+        </h1>
+
+        {/* Button Variants */}
+        <section className="space-y-4">
+          <h2 className="text-xl font-semibold text-foreground">Button</h2>
+          <div className="flex flex-wrap gap-3">
+            <Button>Default</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="destructive">Destructive</Button>
+            <Button variant="link">Link</Button>
+          </div>
+
+          <h3 className="text-sm font-medium text-muted-foreground">Sizes</h3>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button size="xs">XS</Button>
+            <Button size="sm">Small</Button>
+            <Button size="default">Default</Button>
+            <Button size="lg">Large</Button>
+          </div>
+
+          <h3 className="text-sm font-medium text-muted-foreground">
+            Disabled
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            <Button disabled>Disabled</Button>
+            <Button variant="outline" disabled>
+              Disabled
+            </Button>
+          </div>
+        </section>
+
+        {/* Input */}
+        <section className="space-y-4">
+          <h2 className="text-xl font-semibold text-foreground">Input</h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Input placeholder="Default input" />
+            <Input type="email" placeholder="Email" />
+            <Input type="password" placeholder="Password" />
+            <Input disabled placeholder="Disabled" />
+          </div>
+        </section>
+
+        {/* Card */}
+        <section className="space-y-4">
+          <h2 className="text-xl font-semibold text-foreground">Card</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Card Title</CardTitle>
+                <CardDescription>
+                  This is a card description with some details.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Card content goes here. You can put any elements inside.
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button size="sm">Action</Button>
+              </CardFooter>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Login</CardTitle>
+                <CardDescription>
+                  Enter your credentials below.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <Input type="email" placeholder="Email" />
+                  <Input type="password" placeholder="Password" />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full">Sign In</Button>
+              </CardFooter>
+            </Card>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
