@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import type { MenuItem } from "@/lib/menu-data";
 import { Button } from "@/components/ui/button";
 import { QuantitySelector } from "@/components/order/quantity-selector";
@@ -10,13 +11,19 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
 
   return (
     <div className="flex gap-3 rounded-xl border bg-card p-3 shadow-sm">
-      <div className="flex size-20 shrink-0 items-center justify-center rounded-lg bg-muted text-3xl">
-        {item.emoji}
+      <div className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-muted">
+        <Image
+          src={item.image}
+          alt={item.name}
+          fill
+          sizes="80px"
+          className="object-cover"
+        />
       </div>
       <div className="flex min-w-0 flex-1 flex-col justify-between">
         <div>
           <h3 className="text-sm font-semibold leading-tight">{item.name}</h3>
-          <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
+          <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
             {item.description}
           </p>
         </div>
