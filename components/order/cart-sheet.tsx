@@ -43,8 +43,6 @@ export function CartSheet() {
           tableNumber: 12,
           items: items.map(({ item, quantity }) => ({
             menuItemId: item.id,
-            menuItemName: item.name,
-            price: item.price,
             quantity,
           })),
         }),
